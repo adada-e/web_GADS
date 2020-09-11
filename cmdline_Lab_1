@@ -1,0 +1,38 @@
+#Getting started with compute Engine
+##Objectives
+    Create a Compute Engine virtual machine using the Google Cloud Platform (GCP) Console.
+    Create a Compute Engine virtual machine using the gcloud command-line interface.
+    Connect between the two instances.
+
+##Steps
+1.Command line commands for creating CE VM (VM_NAME=my-vm-1, VM_REGION/ZONE=europe-west1-b)
+
+    gcloud compute zones list
+    gcloud config set compute/zone europe-west1-b
+    gcloud compute instances create "my-vm-1" \
+    --machine-type "n1-standard-1" \
+    --image-project "debian-cloud" \
+    --image "debian-9-stretch-v20190213" \
+    --subnet "default" \
+    --http
+
+#create second VM_NAME=my-vm-2
+
+    gcloud config set compute/zone us-central-b
+    gcloud compute instances create "my-vm-1" \
+    --machine-type "n1-standard-1" \
+    --image-project "debian-cloud" \
+    --image "debian-9-stretch-v20190213" \
+    
+2. Testing Connection between my-vm-1 and my-vm-2
+    #access my-vm-2 command interface
+    gcloud compute ssh my-vm-2
+    #send echo request to VM one using device name or ip address
+    ping -c 3 my-vm-1
+    #expect echo reply from VM1 showing details like TTL
+    exit
+    #access my-vm-1 command interface
+    gcloud compute ssh my-vm-1
+    ping -c 3 my-vm-2
+    #expect echo reply from VM1 showing details like TTL
+    exit
